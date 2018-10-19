@@ -2,12 +2,14 @@ package com.elesson.gopstopbank.repository;
 
 import com.elesson.gopstopbank.model.AbstractEntity;
 import com.elesson.gopstopbank.model.Bank;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository("bank")
 public class BankDaoImpl implements Dao {
 
     private static Map<Integer, Bank> banks = new HashMap<>();

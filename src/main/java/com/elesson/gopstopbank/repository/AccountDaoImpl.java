@@ -20,15 +20,23 @@ public class AccountDaoImpl implements Dao {
     static {
         Bank gp = new Bank("GP");
 
-        Account joeAc = new Account(new Client("Joe"), gp);
+        Account joeAc = new Account(new Client("Joe").getId(), gp.getId());
         accounts.put(joeAc.getId(), joeAc);
 
-        Account jeemAc = new Account(new Client("Jeem"), gp);
+        Account jeemAc = new Account(new Client("Jeem").getId(), gp.getId());
         accounts.put(jeemAc.getId(), jeemAc);
+
+        Account jennieAc = new Account(new Client("Jennie").getId(), gp.getId());
+        accounts.put(jennieAc.getId(), jennieAc);
     }
 
     @Override
     public AbstractEntity save(AbstractEntity entity) {
+        if(entity.getId() == null) {
+            Account account = (Account)entity;
+            Account created = new Account(account.getOwnerId(), account.getBankId());
+            return accounts.put(created.getId(), created);
+        }
         return accounts.put(entity.getId(), (Account) entity);
     }
 

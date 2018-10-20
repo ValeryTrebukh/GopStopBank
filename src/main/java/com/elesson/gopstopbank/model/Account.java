@@ -4,32 +4,57 @@ public class Account extends AbstractEntity {
 
     private static int accountIdCounter = 100_001;
 
-    private Client owner;
+//    private Client owner;
+//    private Bank bank;
     private double moneyAmount;
-    private Bank bank;
+    private Integer ownerId;
+    private Integer bankId;
 
-    public Account(Client owner, Bank bank) {
+//    public Account(Client owner, Bank bank) {
+//        id = accountIdCounter++;
+//        this.owner = owner;
+//        this.bank = bank;
+//        moneyAmount = 0;
+//    }
+
+    public Account(Integer ownerId, Integer bankId) {
         id = accountIdCounter++;
-        this.owner = owner;
-        this.bank = bank;
+        this.ownerId = ownerId;
+        this.bankId = bankId;
         moneyAmount = 0;
     }
 
-    public Client getOwner() {
-        return owner;
+    public Integer getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(Client owner) {
-        this.owner = owner;
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
 
-    public Bank getBank() {
-        return bank;
+    public Integer getBankId() {
+        return bankId;
     }
 
-    public void setBank(Bank bank) {
-        this.bank = bank;
+    public void setBankId(Integer bankId) {
+        this.bankId = bankId;
     }
+
+//    public Client getOwner() {
+//        return owner;
+//    }
+//
+//    public void setOwner(Client owner) {
+//        this.owner = owner;
+//    }
+//
+//    public Bank getBank() {
+//        return bank;
+//    }
+//
+//    public void setBank(Bank bank) {
+//        this.bank = bank;
+//    }
 
     public double getMoneyAmount() {
         return moneyAmount;

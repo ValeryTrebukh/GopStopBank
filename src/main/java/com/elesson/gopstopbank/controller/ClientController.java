@@ -32,7 +32,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public AbstractEntity getClientById(@PathVariable("id") int id) {
+    public AbstractEntity getClientById(@PathVariable("id") Integer id) {
         return clientDao.get(id);
     }
 
@@ -54,7 +54,7 @@ public class ClientController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Client client, @PathVariable("id") int id) {
+    public void updateClient(@RequestBody Client client, @PathVariable("id") Integer id) {
         client.setId(id);
         clientDao.save(client);
     }

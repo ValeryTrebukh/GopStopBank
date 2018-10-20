@@ -26,6 +26,10 @@ public class ClientDaoImpl implements Dao {
 
     @Override
     public AbstractEntity save(AbstractEntity entity) {
+        if(entity.getId() == null) {
+            Client created = new Client(((Client)entity).getName());
+            return clients.put(created.getId(), created);
+        }
         return clients.put(entity.getId(), (Client)entity);
     }
 

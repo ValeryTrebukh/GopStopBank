@@ -2,6 +2,7 @@ package com.elesson.gopstopbank;
 
 import com.elesson.gopstopbank.model.Account;
 import com.elesson.gopstopbank.model.Bank;
+import com.elesson.gopstopbank.model.BankAccount;
 import com.elesson.gopstopbank.model.Client;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class DataBase {
     private static Map<Integer, Account> accounts = new HashMap<>();
     private static Map<Integer, Client> clients = new HashMap<>();
     private static Map<Integer, Bank> banks = new HashMap<>();
+    private static Map<Integer, BankAccount> bankAccounts = new HashMap<>();
 
     static {
         Client joe = new Client("Joe");
@@ -25,15 +27,17 @@ public class DataBase {
         gp.assignId();
         banks.put(gp.getId(), gp);
 
-        Account joeAc = new Account(joe.getId(), gp.getId());
-        joeAc.assignId();
-        Account jeemAc = new Account(jeem.getId(), gp.getId());
-        jeemAc.assignId();
-        Account jeemAc2 = new Account(jeem.getId(), gp.getId());
-        jeemAc2.assignId();
-        accounts.put(joeAc.getId(), joeAc);
-        accounts.put(jeemAc.getId(), jeemAc);
-        accounts.put(jeemAc2.getId(), jeemAc2);
+        BankAccount joeBa = new BankAccount(joe.getId());
+        joeBa.assignId(gp);
+        bankAccounts.put(joeBa.getId(), joeBa);
+
+        BankAccount jeemBa = new BankAccount(jeem.getId());
+        jeemBa.assignId(gp);
+        bankAccounts.put(jeemBa.getId(), jeemBa);
+
+        BankAccount jeemBa2 = new BankAccount(jeem.getId());
+        jeemBa2.assignId(gp);
+        bankAccounts.put(jeemBa2.getId(), jeemBa2);
     }
 
     public static Map<Integer, Account> getAccounts() {
@@ -46,5 +50,9 @@ public class DataBase {
 
     public static Map<Integer, Bank> getBanks() {
         return banks;
+    }
+
+    public static Map<Integer, BankAccount> getBankAccounts() {
+        return bankAccounts;
     }
 }

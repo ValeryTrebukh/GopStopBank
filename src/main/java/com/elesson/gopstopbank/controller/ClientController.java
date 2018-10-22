@@ -5,12 +5,10 @@ import com.elesson.gopstopbank.model.Client;
 import com.elesson.gopstopbank.repository.Dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 import java.util.List;
 
 
@@ -38,23 +36,20 @@ public class ClientController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AbstractEntity> createClient(@RequestBody Client client) {
-        Client saved = (Client) clientDao.save(client);
-
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(CLIENT_URL + "/{id}")
-                .buildAndExpand(saved.getId()).toUri();
-
-        return ResponseEntity.created(uriOfNewResource).body(saved);
+        clientDao.save(client);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteClient(@PathVariable("id") Integer id) {
+    public ResponseEntity<AbstractEntity> deleteClient(@PathVariable("id") Integer id) {
         clientDao.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateClient(@RequestBody Client client, @PathVariable("id") Integer id) {
+    public ResponseEntity<AbstractEntity> updateClient(@RequestBody Client client, @PathVariable("id") Integer id) {
         client.setId(id);
         clientDao.update(client);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

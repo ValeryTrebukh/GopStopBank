@@ -24,7 +24,9 @@ public class BankDaoImpl implements Dao {
     @Override
     public AbstractEntity update(AbstractEntity entity) {
         if (banks.containsKey(entity.getId())) {
-            return banks.put(entity.getId(), (Bank)entity);
+            Bank bank = banks.get(entity.getId());
+            bank.setName(((Bank)entity).getName());
+            return bank;
         }
         return null;
     }

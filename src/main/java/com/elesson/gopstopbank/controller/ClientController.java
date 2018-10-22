@@ -38,14 +38,13 @@ public class ClientController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AbstractEntity> createClient(@RequestBody Client client) {
-
-        clientDao.save(client);
+        Client saved = (Client) clientDao.save(client);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(CLIENT_URL + "/{id}")
-                .buildAndExpand(client.getId()).toUri();
+                .buildAndExpand(saved.getId()).toUri();
 
-        return ResponseEntity.created(uriOfNewResource).body(client);
+        return ResponseEntity.created(uriOfNewResource).body(saved);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -56,7 +55,6 @@ public class ClientController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateClient(@RequestBody Client client, @PathVariable("id") Integer id) {
         client.setId(id);
-        clientDao.save(client);
+        clientDao.update(client);
     }
-
 }

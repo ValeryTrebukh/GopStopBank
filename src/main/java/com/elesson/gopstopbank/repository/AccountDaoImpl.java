@@ -18,12 +18,26 @@ public class AccountDaoImpl implements Dao {
 
     @Override
     public AbstractEntity save(AbstractEntity entity) {
-        if(entity.getId() == null) {
-            Account account = (Account)entity;
-            Account created = new Account(account.getOwnerId(), account.getBankId());
+        Account created = (Account)entity;
+        if(isValidBankAndOwner(created)) {
+            created.assignId();
             return accounts.put(created.getId(), created);
         }
-        return accounts.put(entity.getId(), (Account) entity);
+        return null;
+    }
+
+    @Override
+    public AbstractEntity update(AbstractEntity entity) {
+        Account account = (Account)entity;
+        if (accounts.containsKey(account.getId()) && isValidBankAndOwner(account)) {
+            return accounts.put(account.getId(), account);
+        }
+        return null;
+    }
+
+    private boolean isValidBankAndOwner(Account account) {
+        return DataBase.getClients().containsKey(account.getOwnerId()) &&
+               DataBase.getBanks().containsKey(account.getBankId());
     }
 
     @Override

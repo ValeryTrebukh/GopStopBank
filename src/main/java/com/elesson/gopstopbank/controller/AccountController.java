@@ -38,14 +38,13 @@ public class AccountController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AbstractEntity> createAccount(@RequestBody Account account) {
-
-        accountDao.save(account);
+        Account saved = (Account) accountDao.save(account);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(ACCOUNT_URL + "/{id}")
-                .buildAndExpand(account.getId()).toUri();
+                .buildAndExpand(saved.getId()).toUri();
 
-        return ResponseEntity.created(uriOfNewResource).body(account);
+        return ResponseEntity.created(uriOfNewResource).body(saved);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -56,6 +55,6 @@ public class AccountController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateAccount(@RequestBody Account account, @PathVariable("id") Integer id) {
         account.setId(id);
-        accountDao.save(account);
+        accountDao.update(account);
     }
 }

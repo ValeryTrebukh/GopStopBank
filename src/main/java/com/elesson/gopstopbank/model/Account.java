@@ -4,34 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Account extends AbstractEntity {
 
-    private static int accountIdCounter = 100_001;
+    private static Integer accountIdCounter = 100_000;
 
-//    private Client owner;
-//    private Bank bank;
     private double moneyAmount;
-    private Integer ownerId;
     private Integer bankId;
+    private Integer ownerId;
 
-//    public Account(Client owner, Bank bank) {
-//        id = accountIdCounter++;
-//        this.owner = owner;
-//        this.bank = bank;
-//        moneyAmount = 0;
-//    }
 
     public Account(@JsonProperty("ownerId")Integer ownerId, @JsonProperty("bankId")Integer bankId) {
-        id = accountIdCounter++;
         this.ownerId = ownerId;
         this.bankId = bankId;
         moneyAmount = 0;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
     }
 
     public Integer getBankId() {
@@ -42,21 +25,17 @@ public class Account extends AbstractEntity {
         this.bankId = bankId;
     }
 
-//    public Client getOwner() {
-//        return owner;
-//    }
-//
-//    public void setOwner(Client owner) {
-//        this.owner = owner;
-//    }
-//
-//    public Bank getBank() {
-//        return bank;
-//    }
-//
-//    public void setBank(Bank bank) {
-//        this.bank = bank;
-//    }
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public void assignId() {
+        this.setId(++accountIdCounter);
+    }
 
     public double getMoneyAmount() {
         return moneyAmount;

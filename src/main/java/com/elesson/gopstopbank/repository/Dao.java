@@ -7,6 +7,8 @@ public interface Dao {
 
     AbstractEntity save(AbstractEntity entity);
 
+    AbstractEntity update(AbstractEntity entity);
+
     AbstractEntity get(Integer id);
 
     List<AbstractEntity> getAll();

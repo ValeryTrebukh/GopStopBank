@@ -16,11 +16,17 @@ public class BankDaoImpl implements Dao {
 
     @Override
     public AbstractEntity save(AbstractEntity entity) {
-        if(entity.getId() == null) {
-            Bank created = new Bank(((Bank)entity).getName());
-            return banks.put(created.getId(), created);
+        Bank created = (Bank) entity;
+        created.assignId();
+        return banks.put(created.getId(), created);
+    }
+
+    @Override
+    public AbstractEntity update(AbstractEntity entity) {
+        if (banks.containsKey(entity.getId())) {
+            return banks.put(entity.getId(), (Bank)entity);
         }
-        return banks.put(entity.getId(), (Bank)entity);
+        return null;
     }
 
     @Override

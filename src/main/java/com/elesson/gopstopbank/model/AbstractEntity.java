@@ -1,7 +1,7 @@
 package com.elesson.gopstopbank.model;
 
 public abstract class AbstractEntity {
-    protected int id;
+    protected Integer id;
 
     public Integer getId() {
         return id;

@@ -37,7 +37,6 @@ public class BankController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AbstractEntity> createBank(@RequestBody Bank bank) {
-
         bankDao.save(bank);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -55,7 +54,7 @@ public class BankController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateBank(@RequestBody Bank bank, @PathVariable("id") Integer id) {
         bank.setId(id);
-        bankDao.save(bank);
+        bankDao.update(bank);
     }
 
 }

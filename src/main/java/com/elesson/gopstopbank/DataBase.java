@@ -15,18 +15,25 @@ public class DataBase {
 
     static {
         Client joe = new Client("Joe");
+        joe.assignId();
         Client jeem = new Client("Jeem");
+        jeem.assignId();
         clients.put(joe.getId(), joe);
         clients.put(jeem.getId(), jeem);
 
         Bank gp = new Bank("GopStop");
+        gp.assignId();
+        banks.put(gp.getId(), gp);
 
-        Account joeAc = new Account(new Client("Joe").getId(), gp.getId());
-        Account jeemAc = new Account(new Client("Jeem").getId(), gp.getId());
-        Account jennieAc = new Account(new Client("Jennie").getId(), gp.getId());
+        Account joeAc = new Account(joe.getId(), gp.getId());
+        joeAc.assignId();
+        Account jeemAc = new Account(jeem.getId(), gp.getId());
+        jeemAc.assignId();
+        Account jeemAc2 = new Account(jeem.getId(), gp.getId());
+        jeemAc2.assignId();
         accounts.put(joeAc.getId(), joeAc);
         accounts.put(jeemAc.getId(), jeemAc);
-        accounts.put(jennieAc.getId(), jennieAc);
+        accounts.put(jeemAc2.getId(), jeemAc2);
     }
 
     public static Map<Integer, Account> getAccounts() {

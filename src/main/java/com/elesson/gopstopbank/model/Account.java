@@ -1,5 +1,7 @@
 package com.elesson.gopstopbank.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Account extends AbstractEntity {
 
     private static int accountIdCounter = 100_001;
@@ -17,7 +19,7 @@ public class Account extends AbstractEntity {
 //        moneyAmount = 0;
 //    }
 
-    public Account(Integer ownerId, Integer bankId) {
+    public Account(@JsonProperty("ownerId")Integer ownerId, @JsonProperty("bankId")Integer bankId) {
         id = accountIdCounter++;
         this.ownerId = ownerId;
         this.bankId = bankId;

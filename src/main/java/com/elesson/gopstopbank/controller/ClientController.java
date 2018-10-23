@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-
 @RestController
 @RequestMapping(ClientController.CLIENT_URL)
 public class ClientController {
@@ -20,7 +19,7 @@ public class ClientController {
     static final String CLIENT_URL = "/clients";
 
     @Autowired
-    public ClientController(@Qualifier("client") GopDao clientGopDao) {
+    public ClientController(@Qualifier("clientRepository") GopDao clientGopDao) {
         this.clientGopDao = clientGopDao;
     }
 

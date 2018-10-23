@@ -13,7 +13,8 @@ public class BankAccountDaoImpl implements BankAccountDao {
     private final GopDao bankGopDao;
     private final GopDao clientGopDao;
 
-    public BankAccountDaoImpl(@Qualifier("bank") GopDao bankGopDao, @Qualifier("client") GopDao clientGopDao) {
+    public BankAccountDaoImpl(@Qualifier("bankRepository") GopDao bankGopDao,
+                              @Qualifier("clientRepository") GopDao clientGopDao) {
         this.bankGopDao = bankGopDao;
         this.clientGopDao = clientGopDao;
     }

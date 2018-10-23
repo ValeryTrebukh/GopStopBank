@@ -19,7 +19,7 @@ public class BankController {
     static final String BANK_URL = "/banks";
 
     @Autowired
-    public BankController(@Qualifier("bank") GopDao bankGopDao) {
+    public BankController(@Qualifier("bankRepository") GopDao bankGopDao) {
         this.bankGopDao = bankGopDao;
     }
 

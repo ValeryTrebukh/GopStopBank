@@ -2,6 +2,8 @@ package com.elesson.gopstopbank.controller;
 
 import com.elesson.gopstopbank.model.BankAccount;
 import com.elesson.gopstopbank.repository.BankAccountDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ public class BankAccountController {
     private final BankAccountDao bankAccountDao;
     static final String BANK_ACCOUNT_URL = "/banks/{bankId}/accounts";
 
+    @Autowired
     public BankAccountController(BankAccountDao bankAccountDao) {
         this.bankAccountDao = bankAccountDao;
     }

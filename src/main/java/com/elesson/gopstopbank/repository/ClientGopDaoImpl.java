@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Repository("client")
+@Repository("clientRepository")
 public class ClientGopDaoImpl implements GopDao {
     private static Map<Integer, Client> clients = DataBase.getClients();
 

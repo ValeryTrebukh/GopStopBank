@@ -1,6 +1,5 @@
 package com.elesson.gopstopbank;
 
-import com.elesson.gopstopbank.model.Account;
 import com.elesson.gopstopbank.model.Bank;
 import com.elesson.gopstopbank.model.BankAccount;
 import com.elesson.gopstopbank.model.Client;
@@ -10,7 +9,6 @@ import java.util.Map;
 
 public class DataBase {
 
-    private static Map<Integer, Account> accounts = new HashMap<>();
     private static Map<Integer, Client> clients = new HashMap<>();
     private static Map<Integer, Bank> banks = new HashMap<>();
     private static Map<Integer, BankAccount> bankAccounts = new HashMap<>();
@@ -40,9 +38,6 @@ public class DataBase {
         bankAccounts.put(jeemBa2.getId(), jeemBa2);
     }
 
-    public static Map<Integer, Account> getAccounts() {
-        return accounts;
-    }
 
     public static Map<Integer, Client> getClients() {
         return clients;

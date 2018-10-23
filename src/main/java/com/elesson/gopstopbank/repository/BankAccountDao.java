@@ -14,5 +14,5 @@ public interface BankAccountDao {
 
     List<BankAccount> getAll(Integer bankId);
 
-    boolean delete(Integer bankId, Integer id);
+    BankAccount delete(Integer bankId, Integer id);
 }

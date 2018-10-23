@@ -10,28 +10,28 @@ import java.util.List;
 @Repository
 public class BankAccountDaoImpl implements BankAccountDao {
 
-    private final Dao bankDao;
-    private final Dao clientDao;
+    private final GopDao bankGopDao;
+    private final GopDao clientGopDao;
 
-    public BankAccountDaoImpl(@Qualifier("bank") Dao bankDao, @Qualifier("client") Dao clientDao) {
-        this.bankDao = bankDao;
-        this.clientDao = clientDao;
+    public BankAccountDaoImpl(@Qualifier("bank") GopDao bankGopDao, @Qualifier("client") GopDao clientGopDao) {
+        this.bankGopDao = bankGopDao;
+        this.clientGopDao = clientGopDao;
     }
 
     @Override
     public BankAccount save(Integer bankId, BankAccount account) {
-        Bank bank = (Bank)bankDao.get(bankId);
-        if(bank != null && clientDao.get(account.getOwnerId()) != null) {
+        Bank bank = (Bank) bankGopDao.get(bankId);
+        if(bank != null && clientGopDao.get(account.getOwnerId()) != null) {
             account.assignId(bank);
-            return bank.getBankAccountsMap().put(account.getId(), account);
+            return bank.getBankAccountsMap().putIfAbsent(account.getId(), account);
         }
         return null;
     }
 
     @Override
     public BankAccount update(Integer bankId, BankAccount account) {
-        Bank bank = (Bank)bankDao.get(bankId);
-        if (bank != null && bank.getBankAccountsMap().containsKey(account.getId()) && clientDao.get(account.getOwnerId()) != null) {
+        Bank bank = (Bank) bankGopDao.get(bankId);
+        if (bank != null && bank.getBankAccountsMap().containsKey(account.getId()) && clientGopDao.get(account.getOwnerId()) != null) {
             return bank.getBankAccountsMap().put(account.getId(), account);
         }
         return null;
@@ -39,7 +39,7 @@ public class BankAccountDaoImpl implements BankAccountDao {
 
     @Override
     public BankAccount get(Integer bankId, Integer accountId) {
-        Bank bank = (Bank)bankDao.get(bankId);
+        Bank bank = (Bank) bankGopDao.get(bankId);
         if(bank != null) {
             return bank.getBankAccountsMap().get(accountId);
         }
@@ -48,7 +48,7 @@ public class BankAccountDaoImpl implements BankAccountDao {
 
     @Override
     public List<BankAccount> getAll(Integer bankId) {
-        Bank bank = (Bank)bankDao.get(bankId);
+        Bank bank = (Bank) bankGopDao.get(bankId);
         if(bank != null) {
             return bank.getBankAccounts();
         }
@@ -56,12 +56,11 @@ public class BankAccountDaoImpl implements BankAccountDao {
     }
 
     @Override
-    public boolean delete(Integer bankId, Integer accountId) {
-        Bank bank = (Bank)bankDao.get(bankId);
+    public BankAccount delete(Integer bankId, Integer accountId) {
+        Bank bank = (Bank) bankGopDao.get(bankId);
         if(bank != null) {
-            bank.getBankAccountsMap().remove(accountId);
-            return true;
+            return bank.getBankAccountsMap().remove(accountId);
         }
-        return false;
+        return null;
     }
 }

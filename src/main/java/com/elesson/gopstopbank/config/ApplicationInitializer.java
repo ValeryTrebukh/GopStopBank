@@ -1,4 +1,4 @@
-package com.elesson.gopstopbank;
+package com.elesson.gopstopbank.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

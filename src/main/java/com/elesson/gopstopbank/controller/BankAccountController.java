@@ -9,43 +9,53 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(BankController.BANK_URL)
+@RequestMapping(BankAccountController.BANK_ACCOUNT_URL)
 public class BankAccountController {
 
     private final BankAccountDao bankAccountDao;
-
+    static final String BANK_ACCOUNT_URL = "/banks/{bankId}/accounts";
 
     public BankAccountController(BankAccountDao bankAccountDao) {
         this.bankAccountDao = bankAccountDao;
     }
 
-    @GetMapping(value = "/{bankId}/accounts/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BankAccount getBankById(@PathVariable("bankId") Integer bankId, @PathVariable("accountId") Integer accountId) {
-        return bankAccountDao.get(bankId, accountId);
+    @GetMapping(value = "/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BankAccount> getBankById(@PathVariable("bankId") Integer bankId,
+                                                   @PathVariable("accountId") Integer accountId) {
+        BankAccount result = bankAccountDao.get(bankId, accountId);
+        return result == null ?
+                new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{bankId}/accounts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<BankAccount> getAccountsBankById(@PathVariable("bankId") Integer bankId) {
-        return bankAccountDao.getAll(bankId);
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<BankAccount>> getAccountsBankById(@PathVariable("bankId") Integer bankId) {
+        List<BankAccount> result = bankAccountDao.getAll(bankId);
+        return result == null || result.isEmpty() ?
+                new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{bankId}/accounts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BankAccount> createAccount(@RequestBody BankAccount account, @PathVariable("bankId") Integer bankId) {
-        bankAccountDao.save(bankId, account);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BankAccount> createAccount(@RequestBody BankAccount account,
+                                                     @PathVariable("bankId") Integer bankId) {
+        BankAccount created = bankAccountDao.save(bankId, account);
+        return created == null ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) : new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "/{bankId}/accounts/{id}")
-    public ResponseEntity<BankAccount> deleteAccount(@PathVariable("bankId") Integer bankId, @PathVariable("id") Integer id) {
-        bankAccountDao.delete(bankId, id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<BankAccount> deleteAccount(@PathVariable("bankId") Integer bankId,
+                                                     @PathVariable("id") Integer id) {
+        BankAccount deleted = bankAccountDao.delete(bankId, id);
+        return deleted == null ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) : new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{bankId}/accounts/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BankAccount> updateAccount(@RequestBody BankAccount account,
                               @PathVariable("bankId") Integer bankId, @PathVariable("id") Integer id) {
         account.setId(id);
-        bankAccountDao.update(bankId, account);
-        return new ResponseEntity<>(HttpStatus.OK);
+        BankAccount updated = bankAccountDao.update(bankId, account);
+        return updated == null ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) : new ResponseEntity<>(HttpStatus.OK);
     }
 }

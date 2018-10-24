@@ -3,13 +3,15 @@ package com.elesson.gopstopbank.repository;
 import com.elesson.gopstopbank.model.AbstractEntity;
 import java.util.List;
 
-public interface Dao {
+public interface GopDao {
 
     AbstractEntity save(AbstractEntity entity);
+
+    AbstractEntity update(AbstractEntity entity);
 
     AbstractEntity get(Integer id);
 
     List<AbstractEntity> getAll();
 
-    boolean delete(Integer id);
+    AbstractEntity delete(Integer id);
 }

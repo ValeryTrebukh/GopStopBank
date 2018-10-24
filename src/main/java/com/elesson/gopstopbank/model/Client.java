@@ -1,13 +1,14 @@
 package com.elesson.gopstopbank.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Client extends AbstractEntity {
 
-    private static int clientIdCounter = 1001;
+    private static Integer clientIdCounter = 1000;
 
     private String name;
 
-    public Client(String name) {
-        id = clientIdCounter++;
+    public Client(@JsonProperty("name") String name) {
         this.name = name;
     }
 
@@ -17,5 +18,9 @@ public class Client extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void assignId() {
+        this.setId(++clientIdCounter);
     }
 }

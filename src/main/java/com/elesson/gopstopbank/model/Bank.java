@@ -1,17 +1,30 @@
 package com.elesson.gopstopbank.model;
 
+
+import com.elesson.gopstopbank.DataBase;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Bank extends AbstractEntity {
 
-    private static int bankIdCounter = 101;
+    private static Integer bankIdCounter = 100;
+    private Integer accountIdCounter = 100_000;
 
     private String name;
-    private List<Account> accounts;
 
-    public Bank(String name) {
+    @JsonIgnore
+    private Map<Integer, BankAccount> bankAccountsMap;
+
+    public Bank(@JsonProperty("name") String name) {
         this.name = name;
-        id = bankIdCounter++;
+        bankAccountsMap = DataBase.getBankAccounts().values().stream()
+                .filter(b -> b.getBankId().equals(this.id))
+                .collect(Collectors.toMap(AbstractEntity::getId, b -> b));
     }
 
     public String getName() {
@@ -22,7 +35,21 @@ public class Bank extends AbstractEntity {
         this.name = name;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public void assignId() {
+        this.setId(++bankIdCounter);
+    }
+
+    @JsonIgnore
+    public Integer getNextAccountId() {
+        return ++accountIdCounter;
+    }
+
+    @JsonIgnore
+    public List<BankAccount> getBankAccounts() {
+        return new ArrayList<>(bankAccountsMap.values());
+    }
+
+    public Map<Integer, BankAccount> getBankAccountsMap() {
+        return bankAccountsMap;
     }
 }
